@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 
 # Функция конфигурирования и запуска бота
 async def main() -> None:
-
     # Загружаем конфиг в переменную config
     config: Config = load_config()
 
@@ -35,12 +34,12 @@ async def main() -> None:
     bot = Bot(token=config.bot.token)
     dp = Dispatcher()
 
-    # Регистрируем роутеры в диспетчере
+    # Регистриуем роутеры в диспетчере
     dp.include_router(user_router)
     dp.include_router(other_router)
 
     # Здесь будем регистрировать миддлвари
-    # ...
+    dp.update.outer_middleware(FirstOuterMiddleware())
 
     # Запускаем polling
     await dp.start_polling(bot)
